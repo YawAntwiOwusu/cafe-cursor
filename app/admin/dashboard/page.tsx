@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
 
 interface Credit {
@@ -60,12 +60,7 @@ export default function AdminDashboard() {
   const usersFileInputRef = useRef<HTMLInputElement>(null);
   const creditsFileInputRef = useRef<HTMLInputElement>(null);
 
-  // Verificar autenticación y cargar datos
-  useEffect(() => {
-    fetchDashboard();
-  }, []);
-
-  const fetchDashboard = async () => {
+  const fetchDashboard = useCallback(async () => {
     try {
       const res = await fetch("/api/admin/dashboard");
       if (res.status === 401) {
@@ -83,7 +78,11 @@ export default function AdminDashboard() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [router]);
+
+  useEffect(() => {
+    void fetchDashboard();
+  }, [fetchDashboard]);
 
   const handleLogout = async () => {
     await fetch("/api/admin/auth", { method: "DELETE" });
