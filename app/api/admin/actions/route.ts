@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
+
+export const dynamic = "force-dynamic";
 import { prisma } from "@/lib/prisma";
 import { isDatabaseConnectionError, jsonDatabaseUnavailable } from "@/lib/db-errors";
 import { isAuthenticated } from "@/lib/auth";
