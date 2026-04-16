@@ -7,14 +7,17 @@ import { z } from "zod";
 export const registerSchema = z.object({
   name: z
     .string()
-    .min(2, "El nombre debe tener al menos 2 caracteres")
-    .max(100, "El nombre no puede exceder 100 caracteres")
+    .min(2, "Name must be at least 2 characters")
+    .max(100, "Name cannot exceed 100 characters")
     .trim()
-    .regex(/^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/, "El nombre solo puede contener letras"),
+    .regex(
+      /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s'-]+$/,
+      "Name can only contain letters, spaces, hyphens, and apostrophes"
+    ),
   email: z
     .string()
-    .email("Por favor ingresa un email válido")
-    .max(255, "El email no puede exceder 255 caracteres")
+    .email("Please enter a valid email")
+    .max(255, "Email cannot exceed 255 characters")
     .toLowerCase()
     .trim(),
 });

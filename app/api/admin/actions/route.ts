@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { isDatabaseConnectionError, jsonDatabaseUnavailable } from "@/lib/db-errors";
 import { isAuthenticated } from "@/lib/auth";
 import { sendCreditEmail } from "@/lib/email";
 
@@ -12,7 +13,7 @@ export async function POST(request: NextRequest) {
     const authenticated = await isAuthenticated();
     if (!authenticated) {
       return NextResponse.json(
-        { error: "No autorizado" },
+        { error: "Unauthorized" },
         { status: 401 }
       );
     }
@@ -33,14 +34,14 @@ export async function POST(request: NextRequest) {
 
         if (!eligibleUser) {
           return NextResponse.json(
-            { error: "Usuario no encontrado" },
+            { error: "User not found" },
             { status: 404 }
           );
         }
 
         if (eligibleUser.hasClaimed) {
           return NextResponse.json(
-            { error: "El usuario ya tiene un crédito asignado" },
+            { error: "User already has an assigned credit" },
             { status: 400 }
           );
         }
@@ -56,7 +57,7 @@ export async function POST(request: NextRequest) {
 
         if (!credit) {
           return NextResponse.json(
-            { error: "No hay créditos disponibles" },
+            { error: "No credits available" },
             { status: 400 }
           );
         }
@@ -84,7 +85,7 @@ export async function POST(request: NextRequest) {
 
         return NextResponse.json({
           success: true,
-          message: `Crédito ${credit.code} asignado a ${email}`,
+          message: `Credit ${credit.code} assigned to ${email}`,
           credit: credit.link,
         });
       }
@@ -100,14 +101,14 @@ export async function POST(request: NextRequest) {
 
         if (!user) {
           return NextResponse.json(
-            { error: "Usuario no encontrado" },
+            { error: "User not found" },
             { status: 404 }
           );
         }
 
         if (!user.hasClaimed || !user.creditId) {
           return NextResponse.json(
-            { error: "El usuario no tiene crédito asignado" },
+            { error: "User has no assigned credit" },
             { status: 400 }
           );
         }
@@ -135,7 +136,7 @@ export async function POST(request: NextRequest) {
 
         return NextResponse.json({
           success: true,
-          message: `Crédito revocado de ${user.email}`,
+          message: `Credit revoked from ${user.email}`,
         });
       }
 
@@ -149,7 +150,7 @@ export async function POST(request: NextRequest) {
 
         if (existing) {
           return NextResponse.json(
-            { error: "El usuario ya existe" },
+            { error: "User already exists" },
             { status: 400 }
           );
         }
@@ -167,7 +168,7 @@ export async function POST(request: NextRequest) {
 
         return NextResponse.json({
           success: true,
-          message: `Usuario ${email} agregado`,
+          message: `User ${email} added`,
           user: newUser,
         });
       }
@@ -185,7 +186,7 @@ export async function POST(request: NextRequest) {
 
         return NextResponse.json({
           success: true,
-          message: `Estado actualizado a ${approvalStatus}`,
+          message: `Status updated to ${approvalStatus}`,
         });
       }
 
@@ -199,7 +200,7 @@ export async function POST(request: NextRequest) {
 
         if (existing) {
           return NextResponse.json(
-            { error: "El código de crédito ya existe" },
+            { error: "Credit code already exists" },
             { status: 400 }
           );
         }
@@ -216,7 +217,7 @@ export async function POST(request: NextRequest) {
 
         return NextResponse.json({
           success: true,
-          message: `Crédito ${code} agregado`,
+          message: `Credit ${code} added`,
           credit: newCredit,
         });
       }
@@ -231,14 +232,14 @@ export async function POST(request: NextRequest) {
 
         if (!credit) {
           return NextResponse.json(
-            { error: "Crédito no encontrado" },
+            { error: "Credit not found" },
             { status: 404 }
           );
         }
 
         if (credit.isUsed) {
           return NextResponse.json(
-            { error: "No se puede eliminar un crédito asignado" },
+            { error: "Cannot delete an assigned credit" },
             { status: 400 }
           );
         }
@@ -251,7 +252,7 @@ export async function POST(request: NextRequest) {
 
         return NextResponse.json({
           success: true,
-          message: `Crédito ${credit.code} eliminado`,
+          message: `Credit ${credit.code} deleted`,
         });
       }
 
@@ -266,14 +267,14 @@ export async function POST(request: NextRequest) {
 
         if (!user) {
           return NextResponse.json(
-            { error: "Usuario no encontrado" },
+            { error: "User not found" },
             { status: 404 }
           );
         }
 
         if (!user.hasClaimed || !user.credit) {
           return NextResponse.json(
-            { error: "El usuario no tiene crédito asignado" },
+            { error: "User has no assigned credit" },
             { status: 400 }
           );
         }
@@ -286,13 +287,13 @@ export async function POST(request: NextRequest) {
           creditCode: user.credit.code,
           company: user.company || undefined,
           isTest: user.credit.isTest,
-          locale: locale || "pt-BR",
+          locale: locale || "en",
         });
 
         if (!emailResult.success) {
           console.error(`❌ [ADMIN] Error enviando email a ${user.email}:`, emailResult.error);
           return NextResponse.json(
-            { error: `Error enviando email: ${emailResult.error}` },
+            { error: `Failed to send email: ${emailResult.error}` },
             { status: 500 }
           );
         }
@@ -301,20 +302,23 @@ export async function POST(request: NextRequest) {
 
         return NextResponse.json({
           success: true,
-          message: `Email enviado a ${user.email}`,
+          message: `Email sent to ${user.email}`,
         });
       }
 
       default:
         return NextResponse.json(
-          { error: "Acción no válida" },
+          { error: "Invalid action" },
           { status: 400 }
         );
     }
   } catch (error) {
     console.error("❌ [ADMIN] Error ejecutando acción:", error);
+    if (isDatabaseConnectionError(error)) {
+      return jsonDatabaseUnavailable();
+    }
     return NextResponse.json(
-      { error: "Error interno del servidor" },
+      { error: "Internal server error" },
       { status: 500 }
     );
   }

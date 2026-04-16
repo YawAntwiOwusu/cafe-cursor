@@ -1,6 +1,6 @@
-# ☕ Cafe Cursor
+# ☕ Cafe Cursor Accra
 
-> A modern, secure credit distribution system for Cursor IDE community events.
+> Credit distribution for **Cafe Cursor Accra** — a secure way to give pre-approved attendees their Cursor IDE credits.
 
 ![Next.js](https://img.shields.io/badge/Next.js-14-black?style=flat-square&logo=next.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=flat-square&logo=typescript)
@@ -9,206 +9,149 @@
 
 ## ✨ Features
 
-- **🔐 Secure Registration** - Only pre-approved attendees can claim credits
-- **📧 Email Notifications** - Automatic email with credit details via Resend
-- **🌍 Multi-language** - English and Brazilian Portuguese support
-- **📱 Responsive Design** - Beautiful dark theme, works on all devices
-- **👤 Admin Panel** - Manage credits and users with ease
-- **🐦 Social Sharing** - One-click share to X (Twitter)
-- **⚡ Fast & Modern** - Built with Next.js 14 App Router
+- **Secure registration** — Only pre-approved attendees can claim credits
+- **Email notifications** — Credit details via Resend
+- **Multi-language** — English and Brazilian Portuguese on the landing page
+- **Responsive** — Dark-friendly theme, works on mobile
+- **Admin panel** — Credits, eligible users, manual actions
+- **Social sharing** — Share to X from the success screen
 
 ## 🚀 Quick Start
 
-### 1. Clone the repository
+### 1. Clone and install
 
 ```bash
 git clone https://github.com/YOUR_USERNAME/cafe-cursor.git
 cd cafe-cursor
-```
-
-### 2. Install dependencies
-
-```bash
 npm install
 ```
 
-### 3. Set up environment variables
+### 2. Environment variables
+
+This app uses **PostgreSQL only** (no SQLite). Use a free database for local dev ([Neon](https://neon.tech), [Supabase](https://supabase.com), etc.).
 
 ```bash
 cp .env.example .env
 ```
 
-Edit `.env` with your values:
+Edit `.env`:
 
-```env
-# Database (for local development)
-DATABASE_URL="file:./dev.db"
+- **`DATABASE_URL`** — Pooled Postgres URL (if your provider gives separate pool/direct URLs, use the **pooled** one here).
+- **`DIRECT_URL`** — Direct (non-pooled) URL — often the same host without pooling params; required for `prisma db push` / migrations on many hosts.
+- **`RESEND_API_KEY`** / **`FROM_EMAIL`** — From [Resend](https://resend.com); verify a domain for production sending.
+- **`ADMIN_USERNAME`** / **`ADMIN_PASSWORD`** — `/admin` login; use a **strong password** in production.
+- **`SESSION_SECRET`** — Long random string for signing admin cookies in production.
 
-# Resend API (get free key at resend.com)
-RESEND_API_KEY="re_your_api_key"
-FROM_EMAIL="Your Event <onboarding@resend.dev>"
-
-# Admin credentials
-ADMIN_USERNAME="admin"
-ADMIN_PASSWORD="your_secure_password"
-```
-
-### 4. Set up the database
+### 3. Database
 
 ```bash
-# Generate Prisma client
 npx prisma generate
-
-# Create database tables
 npx prisma db push
+```
 
-# Seed with sample data (optional)
+### 4. Seed data (optional)
+
+Put real data in **`prisma/credits.csv`** and **`prisma/users.csv`** (gitignored), or start from the examples:
+
+```bash
+cp prisma/credits-example.csv prisma/credits.csv
+cp prisma/users-example.csv prisma/users.csv
+# Edit the copies with your referral links and attendee list, then:
 npx tsx prisma/seed.ts
 ```
 
-### 5. Run the development server
+CSV formats:
+
+**`prisma/credits.csv`** — column `link` with full Cursor referral URLs.
+
+**`prisma/users.csv`** — `email`, `name`, `company`, `approval_status` (use `approved` for eligible rows).
+
+### 5. Development server
 
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) 🎉
+Open [http://localhost:3000](http://localhost:3000).
 
-## 📊 Admin Panel
+## 📊 Admin panel
 
-Access the admin panel at `/admin`:
-
-- **Dashboard** - View credit statistics and user registrations
-- **User Management** - See who claimed credits
-- **Credit Management** - Track available and used credits
-
-Default credentials: `admin` / `cafecursor2024`
-
-## 📦 Data Import
-
-### Import Credits (CSV)
-
-Create a CSV file with your Cursor referral links:
-
-```csv
-link
-https://cursor.com/referral?code=ABC123
-https://cursor.com/referral?code=DEF456
-```
-
-### Import Eligible Users (CSV)
-
-Create a CSV file with pre-approved attendees:
-
-```csv
-email,name,company,approval_status
-john@email.com,John Doe,Acme Inc,approved
-jane@email.com,Jane Smith,Tech Corp,approved
-```
-
-Place both files in the project root and update `prisma/seed.ts` with your file paths.
+- URL: **`/admin`**
+- Set credentials via `ADMIN_USERNAME` and `ADMIN_PASSWORD` in `.env`.
+- If unset, defaults match [`lib/auth.ts`](lib/auth.ts) (change before production).
 
 ## 🌐 Deploy to Vercel
 
-### 1. Push to GitHub
+1. Import the repo in the [Vercel dashboard](https://vercel.com).
+2. Add the **same** variables as in `.env.example`:
 
-```bash
-git init
-git add .
-git commit -m "Initial commit"
-git remote add origin https://github.com/YOUR_USERNAME/cafe-cursor.git
-git push -u origin main
-```
+   - `DATABASE_URL`
+   - `DIRECT_URL`
+   - `RESEND_API_KEY`
+   - `FROM_EMAIL`
+   - `ADMIN_USERNAME`
+   - `ADMIN_PASSWORD`
+   - `SESSION_SECRET`
 
-### 2. Deploy on Vercel
+3. Deploy. Use managed Postgres (Vercel Postgres, Neon, Supabase, etc.).
+4. After deploy, run **`npx prisma db push`** (or your migration flow) against production **using `DIRECT_URL`** if your host requires it for schema changes.
 
-1. Go to [vercel.com](https://vercel.com) and import your repository
-2. Add environment variables in Vercel dashboard:
-   - `DATABASE_URL` - Your PostgreSQL connection string
-   - `DIRECT_URL` - Direct database URL (same as DATABASE_URL for most providers)
-   - `RESEND_API_KEY` - Your Resend API key
-   - `FROM_EMAIL` - Sender email address
-   - `ADMIN_USERNAME` - Admin username
-   - `ADMIN_PASSWORD` - Admin password
+### Pre-event smoke checks
 
-3. Deploy! 🚀
+- Register with an email from your seeded eligible list; confirm a credit is assigned and the Resend email arrives.
+- Try an email **not** on the list; confirm the eligibility error.
+- Exhaust or temporarily empty credits; confirm the “no credits” path.
+- Log into **`/admin`**, review dashboard stats, and try any manual actions you plan to use.
+- Open the site on a phone; check the form and success screen.
 
-### Recommended Database Providers
+### Recommended database providers
 
-- **[Vercel Postgres](https://vercel.com/docs/storage/vercel-postgres)** - Seamless integration
-- **[Supabase](https://supabase.com)** - Free tier available
-- **[Neon](https://neon.tech)** - Serverless Postgres
+- **[Vercel Postgres](https://vercel.com/docs/storage/vercel-postgres)**
+- **[Supabase](https://supabase.com)**
+- **[Neon](https://neon.tech)**
 
-## 🛠️ Tech Stack
+## 🛠️ Tech stack
 
 | Technology | Purpose |
 |------------|---------|
-| [Next.js 14](https://nextjs.org) | React framework with App Router |
-| [TypeScript](https://typescriptlang.org) | Type safety |
-| [Prisma](https://prisma.io) | Database ORM |
+| [Next.js 14](https://nextjs.org) | App Router |
+| [TypeScript](https://www.typescriptlang.org) | Types |
+| [Prisma](https://www.prisma.io) | ORM |
 | [Tailwind CSS](https://tailwindcss.com) | Styling |
-| [Resend](https://resend.com) | Email delivery |
-| [Zod](https://zod.dev) | Schema validation |
+| [Resend](https://resend.com) | Email |
+| [Zod](https://zod.dev) | Validation |
 
-## 📁 Project Structure
+## 📁 Project structure
 
 ```
 cafe-cursor/
-├── app/
-│   ├── admin/           # Admin panel pages
-│   ├── api/             # API routes
-│   ├── globals.css      # Global styles
-│   ├── layout.tsx       # Root layout
-│   └── page.tsx         # Landing page
+├── app/                 # Pages and API routes
 ├── components/          # React components
-├── lib/                 # Utilities and helpers
+├── lib/                 # Auth, email, translations, etc.
 ├── prisma/
-│   ├── schema.prisma    # Database schema
-│   └── seed.ts          # Seed script
-└── public/              # Static assets
+│   ├── schema.prisma
+│   ├── seed.ts
+│   ├── *-example.csv    # Tracked examples
+│   ├── credits.csv      # Local only (gitignored) — your links
+│   └── users.csv        # Local only (gitignored) — your attendees
+└── public/
 ```
 
 ## 🎨 Customization
 
-### Change Event Name
-
-Update the translations in `lib/translations.ts`:
-
-```typescript
-"pt-BR": {
-  title: "Your Event Name",
-  // ...
-}
-```
-
-### Change Logo
-
-Replace the SVG in `app/page.tsx` or add your logo to `public/`.
-
-### Change Colors
-
-Edit CSS variables in `app/globals.css`:
-
-```css
-:root {
-  --foreground: #your-color;
-  --background: #your-color;
-  /* ... */
-}
-```
+Event copy lives in **`lib/translations.ts`**, SEO in **`app/layout.tsx`**, and transactional email in **`lib/email.ts`**.
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Pull requests are welcome.
 
 ## 📄 License
 
-MIT License - feel free to use this for your community events!
+MIT
 
 ## 💚 Credits
 
-Made with ☕ by **Chris & Alex**  
-Cursor Ambassadors Brazil
+**Cafe Cursor Accra** — organized with ☕ by **Yaw Antwi Owusu**, Cursor Ambassador **Ghana**.
 
 ---
 

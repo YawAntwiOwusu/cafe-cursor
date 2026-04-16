@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
 
     if (!username || !password) {
       return NextResponse.json(
-        { success: false, error: "Usuario y contraseña requeridos" },
+        { success: false, error: "Username and password are required" },
         { status: 400 }
       );
     }
@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
     if (!verifyCredentials(username, password)) {
       console.log(`❌ [ADMIN] Login fallido: ${username}`);
       return NextResponse.json(
-        { success: false, error: "Credenciales inválidas" },
+        { success: false, error: "Invalid credentials" },
         { status: 401 }
       );
     }
@@ -40,12 +40,12 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      message: "Login exitoso",
+      message: "Signed in successfully",
     });
   } catch (error) {
     console.error("❌ [ADMIN] Error en login:", error);
     return NextResponse.json(
-      { success: false, error: "Error interno del servidor" },
+      { success: false, error: "Internal server error" },
       { status: 500 }
     );
   }
@@ -80,12 +80,12 @@ export async function DELETE() {
 
     return NextResponse.json({
       success: true,
-      message: "Logout exitoso",
+      message: "Signed out successfully",
     });
   } catch (error) {
     console.error("❌ [ADMIN] Error en logout:", error);
     return NextResponse.json(
-      { success: false, error: "Error interno del servidor" },
+      { success: false, error: "Internal server error" },
       { status: 500 }
     );
   }

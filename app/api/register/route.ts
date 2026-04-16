@@ -3,6 +3,10 @@ import { prisma } from "@/lib/prisma";
 import { registerSchema } from "@/lib/validations";
 import { ZodError } from "zod";
 import { sendCreditEmail } from "@/lib/email";
+import {
+  isDatabaseConnectionError,
+  jsonDatabaseUnavailable,
+} from "@/lib/db-errors";
 
 /**
  * POST /api/register
@@ -35,7 +39,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           success: false,
-          error: "Este email no está registrado en el evento Cafe Cursor. Solo los asistentes aprobados pueden obtener créditos.",
+          error:
+            "This email is not registered for Cafe Cursor Accra. Only approved attendees can get credits.",
           code: "NOT_ELIGIBLE",
         },
         { status: 403 }
@@ -48,7 +53,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           success: false,
-          error: "Tu registro en el evento aún no ha sido aprobado. Por favor contacta al organizador.",
+          error:
+            "Your event registration has not been approved yet. Please contact the organizer.",
           code: "NOT_APPROVED",
         },
         { status: 403 }
@@ -61,7 +67,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           success: true,
-          message: "¡Ya reclamaste tu crédito! Aquí está nuevamente:",
+          message: "You already claimed your credit. Here it is again:",
           credit: eligibleUser.credit.link,
           isExisting: true,
           user: {
@@ -90,7 +96,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           success: false,
-          error: "Lo sentimos, no hay créditos disponibles en este momento. Por favor contacta al organizador.",
+          error:
+            "Sorry, no credits are available right now. Please contact the organizer.",
           code: "NO_CREDITS",
         },
         { status: 503 }
@@ -140,7 +147,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         success: true,
-        message: "¡Felicidades! Aquí está tu crédito de Cursor:",
+        message: "Congratulations! Here is your Cursor credit:",
         credit: availableCredit.link,
         isTest: isTestUser,
         user: {
@@ -159,19 +166,23 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           success: false,
-          error: error.errors[0]?.message || "Datos inválidos",
+          error: error.errors[0]?.message || "Invalid data",
           code: "VALIDATION_ERROR",
         },
         { status: 400 }
       );
     }
 
-    // Error general
+    if (isDatabaseConnectionError(error)) {
+      console.error(`❌ [REGISTER] Base de datos no disponible:`, error);
+      return jsonDatabaseUnavailable({ success: false });
+    }
+
     console.error(`❌ [REGISTER] Error interno:`, error);
     return NextResponse.json(
       {
         success: false,
-        error: "Error interno del servidor. Por favor intenta de nuevo.",
+        error: "Internal server error. Please try again.",
         code: "SERVER_ERROR",
       },
       { status: 500 }
@@ -203,6 +214,13 @@ export async function GET() {
     });
   } catch (error) {
     console.error(`❌ [STATS] Error:`, error);
+    if (isDatabaseConnectionError(error)) {
+      return jsonDatabaseUnavailable({
+        available: false,
+        remaining: 0,
+        stats: { totalEligible: 0, claimed: 0, pending: 0 },
+      });
+    }
     return NextResponse.json(
       { available: false, remaining: 0 },
       { status: 500 }

@@ -13,7 +13,7 @@ interface LanguageContextType {
 const LanguageContext = createContext<LanguageContextType | null>(null);
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>("pt-BR");
+  const [locale, setLocaleState] = useState<Locale>("en");
   const [isLoading, setIsLoading] = useState(true);
 
   // Cargar preferencia del localStorage después de montar

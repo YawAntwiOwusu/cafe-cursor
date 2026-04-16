@@ -1,18 +1,49 @@
 import { PrismaClient } from "@prisma/client";
 import { readFileSync, existsSync } from "fs";
 import { join } from "path";
+import {
+  parseCreditsCsv,
+  parseUsersCsv,
+  extractCode,
+  normalizeCreditLink,
+} from "../lib/csv-import";
 
 const prisma = new PrismaClient();
 
 // ============================================
 // CONFIGURATION - Edit these paths for your event
 // ============================================
+/** Cursor referral links export (one URL per line, or CSV with link/url column) */
+const CREDITS_EVENT_EXPORT = join(
+  process.cwd(),
+  "prisma",
+  "Café Cursor Accra April - 01.csv"
+);
+/** Guest list export (CSV: email, name, company, approval_status, …) */
+const USERS_EVENT_EXPORT = join(
+  process.cwd(),
+  "prisma",
+  "Café Cursor Accra - Guests - Café Cursor Accra - Guests - 2026-04-16-13-47-14.csv.csv"
+);
+
 const CREDITS_CSV_PATH = join(process.cwd(), "prisma/credits.csv");
 const USERS_CSV_PATH = join(process.cwd(), "prisma/users.csv");
 
 // Example files (used if main files don't exist)
 const CREDITS_EXAMPLE_PATH = join(process.cwd(), "prisma/credits-example.csv");
 const USERS_EXAMPLE_PATH = join(process.cwd(), "prisma/users-example.csv");
+
+function resolveCreditsPath(): string {
+  if (existsSync(CREDITS_EVENT_EXPORT)) return CREDITS_EVENT_EXPORT;
+  if (existsSync(CREDITS_CSV_PATH)) return CREDITS_CSV_PATH;
+  return CREDITS_EXAMPLE_PATH;
+}
+
+function resolveUsersPath(): string {
+  if (existsSync(USERS_EVENT_EXPORT)) return USERS_EVENT_EXPORT;
+  if (existsSync(USERS_CSV_PATH)) return USERS_CSV_PATH;
+  return USERS_EXAMPLE_PATH;
+}
 
 // Test data for development
 const TEST_CREDITS = [
@@ -31,50 +62,27 @@ const TEST_USERS = [
   { email: "test5@example.com", name: "Test User 5" },
 ];
 
-/**
- * Parse CSV file and return array of objects
- */
-function parseCSV(filepath: string): Record<string, string>[] {
+function loadCreditRowsFromFile(filepath: string) {
   if (!existsSync(filepath)) {
     console.log(`   ⚠️  File not found: ${filepath}`);
     return [];
   }
-
-  const content = readFileSync(filepath, "utf-8");
-  const lines = content.trim().split("\n").filter(line => line.trim());
-  
-  if (lines.length < 2) return [];
-
-  const headers = lines[0].split(",").map(h => h.trim().toLowerCase().replace(/"/g, ""));
-  const rows: Record<string, string>[] = [];
-
-  for (let i = 1; i < lines.length; i++) {
-    const values = lines[i].split(",").map(v => v.trim().replace(/"/g, ""));
-    const row: Record<string, string> = {};
-    
-    headers.forEach((header, index) => {
-      row[header] = values[index] || "";
-    });
-    
-    rows.push(row);
-  }
-
-  return rows;
+  return parseCreditsCsv(readFileSync(filepath, "utf-8"));
 }
 
-/**
- * Extract referral code from Cursor link
- */
-function extractCode(link: string): string {
-  const match = link.match(/code=([A-Za-z0-9]+)/);
-  return match ? match[1] : link.replace(/[^A-Za-z0-9]/g, "").substring(0, 12);
+function loadUsersRowsFromFile(filepath: string): Record<string, string>[] {
+  if (!existsSync(filepath)) {
+    console.log(`   ⚠️  File not found: ${filepath}`);
+    return [];
+  }
+  return parseUsersCsv(readFileSync(filepath, "utf-8"));
 }
 
 /**
  * Main seed function
  */
 async function main() {
-  console.log("🌱 Starting Cafe Cursor database seed...\n");
+  console.log("🌱 Starting Cafe Cursor Accra database seed...\n");
 
   // Clean existing data
   console.log("🗑️  Cleaning existing data...");
@@ -86,13 +94,14 @@ async function main() {
   // ============================================
   console.log("\n📦 Loading credits...");
   
-  const creditsPath = existsSync(CREDITS_CSV_PATH) ? CREDITS_CSV_PATH : CREDITS_EXAMPLE_PATH;
-  const creditsData = parseCSV(creditsPath);
+  const creditsPath = resolveCreditsPath();
+  console.log(`   📄 ${creditsPath}`);
+  const creditsData = loadCreditRowsFromFile(creditsPath);
   
   let creditsCreated = 0;
   
   for (const row of creditsData) {
-    const link = row.link || row.url || "";
+    const link = row.link || "";
     if (!link) continue;
     
     const code = extractCode(link);
@@ -102,7 +111,7 @@ async function main() {
       await prisma.credit.create({
         data: {
           code,
-          link: link.startsWith("http") ? link : `https://cursor.com/referral?code=${code}`,
+          link: normalizeCreditLink(link, code),
           isUsed,
           isTest: false,
           assignedAt: isUsed ? new Date() : null,
@@ -139,8 +148,9 @@ async function main() {
   // ============================================
   console.log("\n👥 Loading eligible users...");
   
-  const usersPath = existsSync(USERS_CSV_PATH) ? USERS_CSV_PATH : USERS_EXAMPLE_PATH;
-  const usersData = parseCSV(usersPath);
+  const usersPath = resolveUsersPath();
+  console.log(`   📄 ${usersPath}`);
+  const usersData = loadUsersRowsFromFile(usersPath);
   
   let usersCreated = 0;
   

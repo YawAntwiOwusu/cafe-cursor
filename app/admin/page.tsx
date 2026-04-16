@@ -49,10 +49,10 @@ export default function AdminLogin() {
       if (data.success) {
         router.push("/admin/dashboard");
       } else {
-        setError(data.error || "Error al iniciar sesión");
+        setError(data.error || "Sign-in failed");
       }
     } catch (err) {
-      setError("Error de conexión");
+      setError("Connection error");
     } finally {
       setLoading(false);
     }
@@ -61,7 +61,7 @@ export default function AdminLogin() {
   if (checkingAuth) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-[#0a0a0a]">
-        <div className="text-white">Verificando sesión...</div>
+        <div className="text-white">Checking session...</div>
       </div>
     );
   }
@@ -91,13 +91,13 @@ export default function AdminLogin() {
           Admin Panel
         </h1>
         <p className="mb-8 text-center text-sm text-gray-400">
-          Cafe Cursor - Panel de Administración
+          Cafe Cursor — Administration
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label htmlFor="username" className="mb-2 block text-sm font-medium text-gray-300">
-              Usuario
+              Username
             </label>
             <input
               type="text"
@@ -113,7 +113,7 @@ export default function AdminLogin() {
 
           <div>
             <label htmlFor="password" className="mb-2 block text-sm font-medium text-gray-300">
-              Contraseña
+              Password
             </label>
             <input
               type="password"
@@ -138,13 +138,13 @@ export default function AdminLogin() {
             disabled={loading}
             className="w-full rounded-lg bg-white px-4 py-3 font-medium text-black transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
           >
-            {loading ? "Verificando..." : "Iniciar Sesión"}
+            {loading ? "Signing in..." : "Sign in"}
           </button>
         </form>
 
         <p className="mt-8 text-center text-xs text-gray-500">
           <a href="/" className="hover:text-white">
-            ← Volver al inicio
+            ← Back to home
           </a>
         </p>
       </div>

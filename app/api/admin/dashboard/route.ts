@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { isAuthenticated } from "@/lib/auth";
+import { isDatabaseConnectionError, jsonDatabaseUnavailable } from "@/lib/db-errors";
 
 /**
  * GET /api/admin/dashboard - Obtener datos del dashboard
@@ -11,7 +12,7 @@ export async function GET(request: NextRequest) {
     const authenticated = await isAuthenticated();
     if (!authenticated) {
       return NextResponse.json(
-        { error: "No autorizado" },
+        { error: "Unauthorized" },
         { status: 401 }
       );
     }
@@ -73,8 +74,11 @@ export async function GET(request: NextRequest) {
     });
   } catch (error) {
     console.error("❌ [ADMIN] Error obteniendo dashboard:", error);
+    if (isDatabaseConnectionError(error)) {
+      return jsonDatabaseUnavailable();
+    }
     return NextResponse.json(
-      { error: "Error interno del servidor" },
+      { error: "Internal server error" },
       { status: 500 }
     );
   }
