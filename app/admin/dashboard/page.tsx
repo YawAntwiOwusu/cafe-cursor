@@ -150,6 +150,9 @@ export default function AdminDashboard() {
       }
       const lines = [
         `Created: ${json.created}`,
+        ...(kind === "users" && typeof json.updated === "number"
+          ? [`Updated: ${json.updated}`]
+          : []),
         `Skipped: ${json.skipped}`,
         typeof json.rowCount === "number" ? `Rows in file: ${json.rowCount}` : "",
       ];

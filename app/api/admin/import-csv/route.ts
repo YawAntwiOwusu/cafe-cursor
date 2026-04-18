@@ -199,27 +199,39 @@ async function importUsers(csv: string) {
   });
   const existingSet = new Set(existing.map((e) => e.email.toLowerCase()));
 
-  const toInsert = candidates.filter((c) => !existingSet.has(c.email));
-  const alreadyInDatabase = candidates.length - toInsert.length;
+  await prisma.$transaction(
+    candidates.map((c) =>
+      prisma.eligibleUser.upsert({
+        where: { email: c.email },
+        create: {
+          email: c.email,
+          name: c.name,
+          company: c.company,
+          role: c.role,
+          approvalStatus: c.approvalStatus,
+          hasClaimed: false,
+        },
+        update: {
+          name: c.name,
+          company: c.company,
+          role: c.role,
+          approvalStatus: c.approvalStatus,
+        },
+      })
+    )
+  );
 
-  const createResult = await prisma.eligibleUser.createMany({
-    data: toInsert,
-    skipDuplicates: true,
-  });
-
-  const created = createResult.count;
-  const skippedDbDuplicates = toInsert.length - created;
-  const skipped =
-    invalid + duplicateInFile + alreadyInDatabase + skippedDbDuplicates;
+  const created = candidates.filter((c) => !existingSet.has(c.email)).length;
+  const updated = candidates.length - created;
+  const skipped = invalid + duplicateInFile;
 
   return {
     kind: "users" as const,
     created,
+    updated,
     skipped,
     invalid,
     duplicateInFile,
-    alreadyInDatabase,
-    skippedDbDuplicates,
     rowCount: rows.length,
     errors: errors.length ? errors : undefined,
   };

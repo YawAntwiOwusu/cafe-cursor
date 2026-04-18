@@ -56,7 +56,7 @@ export async function GET(request: NextRequest) {
       include: {
         credit: true,
       },
-      take: 200,
+      take: 500,
     });
 
     return NextResponse.json({
