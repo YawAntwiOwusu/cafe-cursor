@@ -23,7 +23,7 @@ const CREDITS_EVENT_EXPORT = join(
 const USERS_EVENT_EXPORT = join(
   process.cwd(),
   "prisma",
-  "Café Cursor Accra - Guests - Café Cursor Accra - Guests - 2026-04-16-13-47-14.csv.csv"
+  "Café Cursor Accra - Guests - 2026-04-18-03-49-59 - Café Cursor Accra - Guests - 2026-04-18-03-49-59.csv"
 );
 
 const CREDITS_CSV_PATH = join(process.cwd(), "prisma/credits.csv");
