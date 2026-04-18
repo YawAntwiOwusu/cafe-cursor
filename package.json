@@ -10,6 +10,7 @@
     "lint": "next lint",
     "db:push": "prisma db push",
     "db:seed": "tsx prisma/seed.ts",
+    "db:sync-users": "tsx prisma/sync-eligible-users.ts",
     "db:studio": "prisma studio",
     "db:reset": "prisma db push --force-reset && npm run db:seed",
     "postinstall": "prisma generate"
