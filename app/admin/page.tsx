@@ -91,7 +91,7 @@ export default function AdminLogin() {
           Admin Panel
         </h1>
         <p className="mb-8 text-center text-sm text-gray-400">
-          Cafe Cursor — Administration
+          Cursor Build Night — Administration
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-4">

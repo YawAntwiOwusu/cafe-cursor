@@ -6,14 +6,14 @@ import { LanguageProvider } from "@/components/LanguageContext";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Cafe Cursor Accra | Get your free Cursor credit",
+  title: "Cursor Build Night Accra | Get your free Cursor credit",
   description:
-    "Register for Cafe Cursor Accra to claim your Cursor IDE credit. Hosted in Accra, Ghana.",
-  keywords: ["cursor", "ide", "credit", "Accra", "Ghana", "developers", "Cafe Cursor Accra"],
-  authors: [{ name: "Cafe Cursor Accra" }],
+    "Register for Cursor Build Night Accra to claim your Cursor IDE credit. Hosted in Accra, Ghana.",
+  keywords: ["cursor", "ide", "credit", "Accra", "Ghana", "developers", "Cursor Build Night Accra"],
+  authors: [{ name: "Cursor Build Night Accra" }],
   openGraph: {
-    title: "Cafe Cursor Accra | Get your free Cursor credit",
-    description: "Register for Cafe Cursor Accra to claim your Cursor IDE credit.",
+    title: "Cursor Build Night Accra | Get your free Cursor credit",
+    description: "Register for Cursor Build Night Accra to claim your Cursor IDE credit.",
     type: "website",
   },
 };

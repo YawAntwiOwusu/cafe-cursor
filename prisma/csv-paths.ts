@@ -5,10 +5,15 @@ const prismaDir = () => join(process.cwd(), "prisma");
 
 /**
  * Edit these when you drop a new event export into prisma/.
+ *
+ * Archived (April 2026 — Cafe Cursor Accra):
+ *   - "Café Cursor Accra April - 01.csv"
+ *   - "Café Cursor Accra - Guests - 2026-04-18-03-49-59 - Café Cursor Accra - Guests - 2026-04-18-03-49-59.csv"
+ *   (stored in prisma/archive/)
  */
-const CREDITS_EVENT_BASENAME = "Café Cursor Accra April - 01.csv";
+const CREDITS_EVENT_BASENAME = "Cursor Build Night Accra May.csv";
 const USERS_EVENT_BASENAME =
-  "Café Cursor Accra - Guests - 2026-04-18-03-49-59 - Café Cursor Accra - Guests - 2026-04-18-03-49-59.csv";
+  "Cursor Build Night Accra - Guests - 2026-05-30-16-27-38.csv";
 
 export function resolveCreditsPath(): string {
   const dir = prismaDir();

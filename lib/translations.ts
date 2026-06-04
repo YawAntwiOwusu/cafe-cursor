@@ -3,8 +3,8 @@ export type Locale = "pt-BR" | "en";
 export const translations = {
   "pt-BR": {
     // Header
-    title: "Cafe Cursor Accra",
-    subtitle: "Obtenha seu crédito gratuito do Cursor IDE no Cafe Cursor Accra.",
+    title: "Cursor Build Night Accra",
+    subtitle: "Obtenha seu crédito gratuito do Cursor IDE no Cursor Build Night Accra.",
     cta: "Cadastre-se em segundos.",
 
     // Form
@@ -44,7 +44,7 @@ export const translations = {
 
     // Errors
     notEligible:
-      "Este email não está cadastrado no Cafe Cursor Accra. Apenas participantes aprovados podem obter créditos.",
+      "Este email não está cadastrado no Cursor Build Night Accra. Apenas participantes aprovados podem obter créditos.",
     notApproved:
       "Seu cadastro no evento ainda não foi aprovado. Por favor, entre em contato com o organizador.",
     noCreditsAvailable:
@@ -57,15 +57,15 @@ export const translations = {
     // Share
     shareOnX: "Compartilhar no X",
     shareMessage:
-      "🚀 Acabei de ganhar um crédito do @cursor_ai no Cafe Cursor Accra, Gana! Obrigado à comunidade. #CafeCursorAccra #CursorAI #DevCommunity",
+      "🚀 Acabei de ganhar um crédito do @cursor_ai no Cursor Build Night Accra, Gana! Obrigado à comunidade. #CursorBuildNightAccra #CursorAI #DevCommunity",
 
     // Email
     emailSent: "📧 Enviamos o crédito para seu email!",
   },
   "en": {
     // Header
-    title: "Cafe Cursor Accra",
-    subtitle: "Get your free Cursor IDE credit at Cafe Cursor Accra.",
+    title: "Cursor Build Night Accra",
+    subtitle: "Get your free Cursor IDE credit at Cursor Build Night Accra.",
     cta: "Register in seconds.",
 
     // Form
@@ -105,7 +105,7 @@ export const translations = {
 
     // Errors
     notEligible:
-      "This email is not registered for Cafe Cursor Accra. Only approved attendees can get credits.",
+      "This email is not registered for Cursor Build Night Accra. Only approved attendees can get credits.",
     notApproved: "Your event registration hasn't been approved yet. Please contact the organizer.",
     noCreditsAvailable:
       "Sorry, no credits are available at the moment. Please contact the organizer.",
@@ -117,7 +117,7 @@ export const translations = {
     // Share
     shareOnX: "Share on X",
     shareMessage:
-      "🚀 Just got a @cursor_ai credit at Cafe Cursor Accra, Ghana! Huge thanks to the community. #CafeCursorAccra #CursorAI #DevCommunity",
+      "🚀 Just got a @cursor_ai credit at Cursor Build Night Accra, Ghana! Huge thanks to the community. #CursorBuildNightAccra #CursorAI #DevCommunity",
 
     // Email
     emailSent: "📧 We sent the credit to your email!",

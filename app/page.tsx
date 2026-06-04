@@ -6,7 +6,7 @@ import { LanguageSelector } from "@/components/LanguageSelector";
 import { useLanguage } from "@/components/LanguageContext";
 
 /**
- * Landing page do Cafe Cursor
+ * Landing page for Cursor Build Night Accra
  * Estilo minimalista inspirado no Luma
  */
 export default function Home() {
