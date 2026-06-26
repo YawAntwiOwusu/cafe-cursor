@@ -104,8 +104,8 @@ export function RegisterForm() {
   // Vista de sucesso
   if (status === "success" && result?.credit) {
     return (
-      <div className="w-full max-w-md animate-fade-in">
-        <div className="rounded-2xl border border-border bg-background p-8">
+      <div className="mx-auto w-full max-w-md animate-fade-in">
+        <div className="rounded-2xl border border-border bg-background p-6 sm:p-8">
           {/* Ícone de sucesso */}
           <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--success)]/10">
             <svg
@@ -154,15 +154,15 @@ export function RegisterForm() {
           )}
 
           {/* Link do crédito */}
-          <div className="mb-4 rounded-xl border border-border bg-background p-4">
+          <div className="mb-4 overflow-hidden rounded-xl border border-border bg-background p-4">
             <p className="mb-2 text-xs font-medium uppercase tracking-wider text-muted">
               {t("yourCredit")}
             </p>
-            <p className="break-all font-mono text-sm">{result.credit}</p>
+            <p className="break-all font-mono text-xs leading-relaxed sm:text-sm">{result.credit}</p>
           </div>
 
           {/* Botões de ação */}
-          <div className="flex gap-3">
+          <div className="flex flex-col gap-3 sm:flex-row">
             <button
               onClick={handleCopyLink}
               className="flex-1 rounded-xl border border-border bg-background px-4 py-3 text-sm font-medium transition-colors hover:bg-foreground/5"
@@ -207,8 +207,8 @@ export function RegisterForm() {
 
   // Formulário de cadastro
   return (
-    <form onSubmit={handleSubmit} className="w-full max-w-md animate-fade-in">
-      <div className="rounded-2xl border border-border bg-background p-8">
+    <form onSubmit={handleSubmit} className="mx-auto w-full max-w-md animate-fade-in">
+      <div className="rounded-2xl border border-border bg-background p-6 sm:p-8">
         {/* Campo Nome */}
         <div className="mb-4">
           <label

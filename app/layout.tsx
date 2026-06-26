@@ -6,14 +6,14 @@ import { LanguageProvider } from "@/components/LanguageContext";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Cursor Build Night Accra | Get your free Cursor credit",
+  title: "Cursor Hackathon UCC | Get your free Cursor credit",
   description:
-    "Register for Cursor Build Night Accra to claim your Cursor IDE credit. Hosted in Accra, Ghana.",
-  keywords: ["cursor", "ide", "credit", "Accra", "Ghana", "developers", "Cursor Build Night Accra"],
-  authors: [{ name: "Cursor Build Night Accra" }],
+    "Register for Cursor Hackathon UCC to claim your Cursor IDE credit. Hosted at UCC, Ghana.",
+  keywords: ["cursor", "ide", "credit", "UCC", "Ghana", "developers", "Cursor Hackathon UCC", "hackathon"],
+  authors: [{ name: "Cursor Hackathon UCC" }],
   openGraph: {
-    title: "Cursor Build Night Accra | Get your free Cursor credit",
-    description: "Register for Cursor Build Night Accra to claim your Cursor IDE credit.",
+    title: "Cursor Hackathon UCC | Get your free Cursor credit",
+    description: "Register for Cursor Hackathon UCC to claim your Cursor IDE credit.",
     type: "website",
   },
 };
@@ -25,7 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`}>
-      <body className="antialiased">
+      <body className={`${GeistSans.className} antialiased`}>
         <LanguageProvider>{children}</LanguageProvider>
         <Analytics />
       </body>

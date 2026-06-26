@@ -2,7 +2,7 @@ import { Resend } from "resend";
 import { readFileSync, existsSync } from "fs";
 import { join } from "path";
 
-const DEFAULT_FROM = "Cursor Build Night Accra <onboarding@resend.dev>";
+const DEFAULT_FROM = "Cursor Hackathon UCC <onboarding@resend.dev>";
 
 /** Trim and strip optional surrounding quotes from .env-style values */
 function normalizeEnvValue(value: string): string {
@@ -94,8 +94,8 @@ export async function sendCreditEmail({
   try {
     const subject =
       locale === "pt-BR"
-        ? "🎉 Seu crédito Cursor está aqui! - Cursor Build Night Accra"
-        : "🎉 Your Cursor credit is here! - Cursor Build Night Accra";
+        ? "🎉 Seu crédito Cursor está aqui! - Cursor Hackathon UCC"
+        : "🎉 Your Cursor credit is here! - Cursor Hackathon UCC";
 
     const html = generateEmailHTML({
       name,
@@ -146,8 +146,8 @@ function generateEmailHTML({
   const texts = {
     greeting: isPtBR ? `Olá, ${name}!` : `Hello, ${name}!`,
     thanks: isPtBR
-      ? "Obrigado por participar do Cursor Build Night Accra!"
-      : "Thank you for joining Cursor Build Night Accra!",
+      ? "Obrigado por participar do Cursor Hackathon UCC!"
+      : "Thank you for joining Cursor Hackathon UCC!",
     intro: isPtBR
       ? "Estamos muito felizes em ter você na nossa comunidade. Aqui está seu crédito exclusivo do Cursor IDE:"
       : "We're thrilled to have you in our community. Here's your exclusive Cursor IDE credit:",
@@ -182,7 +182,7 @@ function generateEmailHTML({
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cursor Build Night Accra - ${texts.yourCredit}</title>
+  <title>Cursor Hackathon UCC - ${texts.yourCredit}</title>
 </head>
 <body style="margin: 0; padding: 0; background-color: #0a0a0a; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
   <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #0a0a0a;">
@@ -203,7 +203,7 @@ function generateEmailHTML({
           <tr>
             <td align="center" style="padding-bottom: 8px;">
               <h1 style="margin: 0; font-size: 28px; font-weight: 700; color: #ffffff; letter-spacing: -0.5px;">
-                Cursor Build Night Accra
+                Cursor Hackathon UCC
               </h1>
             </td>
           </tr>

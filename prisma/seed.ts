@@ -48,7 +48,7 @@ const TEST_USERS = [
  * Main seed function
  */
 async function main() {
-  console.log("🌱 Starting Cursor Build Night Accra database seed...\n");
+  console.log("🌱 Starting Cursor Hackathon UCC database seed...\n");
 
   // Clean existing data
   console.log("🗑️  Cleaning existing data...");

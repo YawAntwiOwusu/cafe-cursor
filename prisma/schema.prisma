@@ -1,4 +1,4 @@
-// Prisma Schema for Cursor Build Night Accra Credit Distribution
+// Prisma Schema for Cursor Hackathon UCC Credit Distribution
 // Database: PostgreSQL (local and production). Use DATABASE_URL + DIRECT_URL.
 
 generator client {

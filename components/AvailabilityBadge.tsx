@@ -65,28 +65,28 @@ export function AvailabilityBadge() {
   const hasCredits = available > 0;
 
   return (
-    <div className="flex flex-col items-center gap-2">
+    <div className="flex w-full max-w-sm flex-col items-center gap-2 text-center sm:max-w-none">
       {/* Badge principal */}
       <div
-        className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm backdrop-blur-sm ${
+        className={`inline-flex max-w-full items-center gap-2 rounded-full border px-4 py-2 text-sm backdrop-blur-sm ${
           hasCredits
             ? "border-[var(--success)]/30 bg-[var(--success)]/10"
             : "border-[var(--error)]/30 bg-[var(--error)]/10"
         }`}
       >
         <div
-          className={`h-2 w-2 rounded-full ${
+          className={`h-2 w-2 shrink-0 rounded-full ${
             hasCredits ? "bg-[var(--success)] animate-pulse" : "bg-[var(--error)]"
           }`}
         />
-        <span className={hasCredits ? "text-[var(--success)]" : "text-[var(--error)]"}>
+        <span className={`text-pretty ${hasCredits ? "text-[var(--success)]" : "text-[var(--error)]"}`}>
           {hasCredits ? `${available} ${t("creditsAvailable")}` : t("noCredits")}
         </span>
       </div>
 
       {/* Contador de participantes */}
       {data.totalEligible > 0 && (
-        <p className="text-xs text-muted">
+        <p className="max-w-xs text-pretty text-xs text-muted">
           {data.totalClaimed} {t("of")} {data.totalEligible} {t("alreadyClaimed")}
         </p>
       )}
