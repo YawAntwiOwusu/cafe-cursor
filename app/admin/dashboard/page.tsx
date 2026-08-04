@@ -9,6 +9,7 @@ interface Credit {
   link: string;
   isUsed: boolean;
   isTest: boolean;
+  isBackup: boolean;
   assignedAt: string | null;
   createdAt: string;
 }
@@ -29,6 +30,7 @@ interface Stats {
   usedCredits: number;
   availableCredits: number;
   testCredits: number;
+  backupCredits: number;
   realCredits: number;
   totalEligible: number;
   claimedUsers: number;
@@ -245,6 +247,11 @@ export default function AdminDashboard() {
             label="Available"
             value={data?.stats.availableCredits || 0}
             color="green"
+          />
+          <StatCard
+            label="Backup"
+            value={data?.stats.backupCredits || 0}
+            color="amber"
           />
           <StatCard
             label="Used"
@@ -488,15 +495,22 @@ export default function AdminDashboard() {
                       {credit.link}
                     </td>
                     <td className="px-4 py-3">
-                      {credit.isTest ? (
-                        <span className="rounded-full bg-purple-500/20 px-2 py-1 text-xs text-purple-400">
-                          TEST
-                        </span>
-                      ) : (
-                        <span className="rounded-full bg-blue-500/20 px-2 py-1 text-xs text-blue-400">
-                          Production
-                        </span>
-                      )}
+                      <div className="flex flex-wrap gap-1">
+                        {credit.isTest ? (
+                          <span className="rounded-full bg-purple-500/20 px-2 py-1 text-xs text-purple-400">
+                            TEST
+                          </span>
+                        ) : (
+                          <span className="rounded-full bg-blue-500/20 px-2 py-1 text-xs text-blue-400">
+                            Production
+                          </span>
+                        )}
+                        {credit.isBackup && (
+                          <span className="rounded-full bg-amber-500/20 px-2 py-1 text-xs text-amber-400">
+                            Backup
+                          </span>
+                        )}
+                      </div>
                     </td>
                     <td className="px-4 py-3">
                       {credit.isUsed ? (
@@ -553,6 +567,7 @@ function StatCard({ label, value, color }: { label: string; value: number; color
     blue: "border-blue-500/30 bg-blue-500/10",
     green: "border-green-500/30 bg-green-500/10",
     orange: "border-orange-500/30 bg-orange-500/10",
+    amber: "border-amber-500/30 bg-amber-500/10",
     purple: "border-purple-500/30 bg-purple-500/10",
     cyan: "border-cyan-500/30 bg-cyan-500/10",
     pink: "border-pink-500/30 bg-pink-500/10",

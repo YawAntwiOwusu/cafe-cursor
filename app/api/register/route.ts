@@ -88,7 +88,8 @@ export async function POST(request: NextRequest) {
         isUsed: false,
         isTest: isTestUser,  // Test users get test credits, real users get real credits
       },
-      orderBy: { createdAt: "asc" },
+      // Primary pool first; backup (unused UCC) only after primary is exhausted
+      orderBy: [{ isBackup: "asc" }, { createdAt: "asc" }],
     });
 
     if (!availableCredit) {

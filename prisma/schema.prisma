@@ -37,6 +37,7 @@ model Credit {
   link        String       @unique  // Link completo
   isUsed      Boolean      @default(false)
   isTest      Boolean      @default(false)  // Para distinguir créditos de test
+  isBackup    Boolean      @default(false)  // Unused UCC (etc.) held until primary pool is empty
   assignedAt  DateTime?
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
