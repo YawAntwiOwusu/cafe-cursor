@@ -91,10 +91,10 @@ async function main() {
     process.exit(1);
   }
 
-  const unredeemedInCsv = [...poolCredits.values()].filter(
+  const unredeemedInCsv = Array.from(poolCredits.values()).filter(
     (c) => !c.redeemedInCsv
   );
-  const redeemedInCsv = [...poolCredits.values()].filter(
+  const redeemedInCsv = Array.from(poolCredits.values()).filter(
     (c) => c.redeemedInCsv
   );
 
@@ -115,7 +115,7 @@ async function main() {
   console.log(`   Unused real credits: ${before.unusedReal}`);
   console.log(`   Used real credits:   ${before.usedReal}`);
 
-  const poolCodes = [...poolCredits.keys()];
+  const poolCodes = Array.from(poolCredits.keys());
 
   if (freshTrack) {
     await resetTrack(poolCodes);
@@ -183,7 +183,7 @@ async function main() {
 
   if (usedCodes.size > 0) {
     await prisma.credit.updateMany({
-      where: { isTest: false, code: { in: [...usedCodes] } },
+      where: { isTest: false, code: { in: Array.from(usedCodes) } },
       data: { isUsed: true },
     });
   }
