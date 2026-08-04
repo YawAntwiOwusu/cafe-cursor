@@ -6,14 +6,24 @@ import { LanguageProvider } from "@/components/LanguageContext";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Cursor Hackathon UCC | Get your free Cursor credit",
+  title: "Cursor Ghana Meetup - Builders Day Edition with Cursor Team | Get your free Cursor credit",
   description:
-    "Register for Cursor Hackathon UCC to claim your Cursor IDE credit. Hosted at UCC, Ghana.",
-  keywords: ["cursor", "ide", "credit", "UCC", "Ghana", "developers", "Cursor Hackathon UCC", "hackathon"],
-  authors: [{ name: "Cursor Hackathon UCC" }],
+    "Register for Cursor Ghana Meetup - Builders Day Edition with Cursor Team to claim your Cursor IDE credit. Hosted in Ghana.",
+  keywords: [
+    "cursor",
+    "ide",
+    "credit",
+    "Ghana",
+    "developers",
+    "Cursor Ghana Meetup",
+    "Builders Day",
+    "meetup",
+  ],
+  authors: [{ name: "Cursor Ghana Meetup - Builders Day Edition with Cursor Team" }],
   openGraph: {
-    title: "Cursor Hackathon UCC | Get your free Cursor credit",
-    description: "Register for Cursor Hackathon UCC to claim your Cursor IDE credit.",
+    title: "Cursor Ghana Meetup - Builders Day Edition with Cursor Team | Get your free Cursor credit",
+    description:
+      "Register for Cursor Ghana Meetup - Builders Day Edition with Cursor Team to claim your Cursor IDE credit.",
     type: "website",
   },
 };

@@ -3,8 +3,8 @@ export type Locale = "pt-BR" | "en";
 export const translations = {
   "pt-BR": {
     // Header
-    title: "Cursor Hackathon UCC",
-    subtitle: "Obtenha seu crédito gratuito do Cursor IDE no Cursor Hackathon UCC.",
+    title: "Cursor Ghana Meetup - Builders Day Edition with Cursor Team",
+    subtitle: "Obtenha seu crédito gratuito do Cursor IDE no Cursor Ghana Meetup - Builders Day Edition with Cursor Team.",
     cta: "Cadastre-se em segundos.",
 
     // Form
@@ -44,7 +44,7 @@ export const translations = {
 
     // Errors
     notEligible:
-      "Este email não está cadastrado no Cursor Hackathon UCC. Apenas participantes aprovados podem obter créditos.",
+      "Este email não está cadastrado no Cursor Ghana Meetup - Builders Day Edition with Cursor Team. Apenas participantes aprovados podem obter créditos.",
     notApproved:
       "Seu cadastro no evento ainda não foi aprovado. Por favor, entre em contato com o organizador.",
     noCreditsAvailable:
@@ -57,15 +57,15 @@ export const translations = {
     // Share
     shareOnX: "Compartilhar no X",
     shareMessage:
-      "🚀 Acabei de ganhar um crédito do @cursor_ai no Cursor Hackathon UCC, Gana! Obrigado à comunidade. #CursorHackathonUCC #CursorAI #DevCommunity",
+      "🚀 Acabei de ganhar um crédito do @cursor_ai no Cursor Ghana Meetup - Builders Day Edition with Cursor Team! Obrigado à comunidade. #CursorGhanaMeetup #BuildersDay #CursorAI #DevCommunity",
 
     // Email
     emailSent: "📧 Enviamos o crédito para seu email!",
   },
   "en": {
     // Header
-    title: "Cursor Hackathon UCC",
-    subtitle: "Get your free Cursor IDE credit at Cursor Hackathon UCC.",
+    title: "Cursor Ghana Meetup - Builders Day Edition with Cursor Team",
+    subtitle: "Get your free Cursor IDE credit at Cursor Ghana Meetup - Builders Day Edition with Cursor Team.",
     cta: "Register in seconds.",
 
     // Form
@@ -105,7 +105,7 @@ export const translations = {
 
     // Errors
     notEligible:
-      "This email is not registered for Cursor Hackathon UCC. Only approved attendees can get credits.",
+      "This email is not registered for Cursor Ghana Meetup - Builders Day Edition with Cursor Team. Only approved attendees can get credits.",
     notApproved: "Your event registration hasn't been approved yet. Please contact the organizer.",
     noCreditsAvailable:
       "Sorry, no credits are available at the moment. Please contact the organizer.",
@@ -117,7 +117,7 @@ export const translations = {
     // Share
     shareOnX: "Share on X",
     shareMessage:
-      "🚀 Just got a @cursor_ai credit at Cursor Hackathon UCC, Ghana! Huge thanks to the community. #CursorHackathonUCC #CursorAI #DevCommunity",
+      "🚀 Just got a @cursor_ai credit at Cursor Ghana Meetup - Builders Day Edition with Cursor Team! Huge thanks to the community. #CursorGhanaMeetup #BuildersDay #CursorAI #DevCommunity",
 
     // Email
     emailSent: "📧 We sent the credit to your email!",

@@ -2,7 +2,8 @@ import { Resend } from "resend";
 import { readFileSync, existsSync } from "fs";
 import { join } from "path";
 
-const DEFAULT_FROM = "Cursor Hackathon UCC <onboarding@resend.dev>";
+const DEFAULT_FROM =
+  "Cursor Ghana Meetup - Builders Day Edition with Cursor Team <onboarding@resend.dev>";
 
 /** Trim and strip optional surrounding quotes from .env-style values */
 function normalizeEnvValue(value: string): string {
@@ -94,8 +95,8 @@ export async function sendCreditEmail({
   try {
     const subject =
       locale === "pt-BR"
-        ? "🎉 Seu crédito Cursor está aqui! - Cursor Hackathon UCC"
-        : "🎉 Your Cursor credit is here! - Cursor Hackathon UCC";
+        ? "🎉 Seu crédito Cursor está aqui! - Cursor Ghana Meetup - Builders Day Edition with Cursor Team"
+        : "🎉 Your Cursor credit is here! - Cursor Ghana Meetup - Builders Day Edition with Cursor Team";
 
     const html = generateEmailHTML({
       name,
@@ -146,8 +147,8 @@ function generateEmailHTML({
   const texts = {
     greeting: isPtBR ? `Olá, ${name}!` : `Hello, ${name}!`,
     thanks: isPtBR
-      ? "Obrigado por participar do Cursor Hackathon UCC!"
-      : "Thank you for joining Cursor Hackathon UCC!",
+      ? "Obrigado por participar do Cursor Ghana Meetup - Builders Day Edition with Cursor Team!"
+      : "Thank you for joining Cursor Ghana Meetup - Builders Day Edition with Cursor Team!",
     intro: isPtBR
       ? "Estamos muito felizes em ter você na nossa comunidade. Aqui está seu crédito exclusivo do Cursor IDE:"
       : "We're thrilled to have you in our community. Here's your exclusive Cursor IDE credit:",
@@ -182,7 +183,7 @@ function generateEmailHTML({
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cursor Hackathon UCC - ${texts.yourCredit}</title>
+  <title>Cursor Ghana Meetup - Builders Day Edition with Cursor Team - ${texts.yourCredit}</title>
 </head>
 <body style="margin: 0; padding: 0; background-color: #0a0a0a; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
   <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #0a0a0a;">
@@ -203,7 +204,7 @@ function generateEmailHTML({
           <tr>
             <td align="center" style="padding-bottom: 8px;">
               <h1 style="margin: 0; font-size: 28px; font-weight: 700; color: #ffffff; letter-spacing: -0.5px;">
-                Cursor Hackathon UCC
+                Cursor Ghana Meetup - Builders Day Edition with Cursor Team
               </h1>
             </td>
           </tr>

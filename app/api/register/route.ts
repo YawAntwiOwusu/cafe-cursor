@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
         {
           success: false,
           error:
-            "This email is not registered for Cursor Hackathon UCC. Only approved attendees can get credits.",
+            "This email is not registered for Cursor Ghana Meetup - Builders Day Edition with Cursor Team. Only approved attendees can get credits.",
           code: "NOT_ELIGIBLE",
         },
         { status: 403 }

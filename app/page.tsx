@@ -6,7 +6,7 @@ import { LanguageSelector } from "@/components/LanguageSelector";
 import { useLanguage } from "@/components/LanguageContext";
 
 /**
- * Landing page for Cursor Hackathon UCC
+ * Landing page for Cursor Ghana Meetup - Builders Day Edition with Cursor Team
  * Estilo minimalista inspirado no Luma
  */
 export default function Home() {
