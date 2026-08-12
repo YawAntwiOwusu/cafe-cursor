@@ -14,15 +14,15 @@ const prismaDir = () => join(process.cwd(), "prisma");
  *   - "Cursor Build Night Accra May.csv"
  *   - "Cursor Build Night Accra - Guests - 2026-05-30-16-27-38.csv"
  *
- * Archived (June 2026 — prior UCC pool: Build Night + Cafe Cursor):
- *   - "Cursor Build Night Accra May.csv"
- *   - "Café Cursor Accra April - 01.csv" (in prisma/archive/)
+ * Archived (June 2026 — Cursor Hackathon UCC):
+ *   - "Cursor Hackathon UCC June.csv"
+ *   - "Cursor Hackathon UCC - Guests - 2026-06-26-20-48-18.csv"
  *
  * (stored in prisma/archive/)
  */
 const CREDITS_EVENT_BASENAME = "Cursor Hackathon UCC June.csv";
 const USERS_EVENT_BASENAME =
-  "Cursor Hackathon UCC - Guests - 2026-06-26-20-48-18.csv";
+  "Cursor Meetup Accra - Guests - August 12.csv";
 
 export function resolveCreditsPath(): string {
   const dir = prismaDir();
