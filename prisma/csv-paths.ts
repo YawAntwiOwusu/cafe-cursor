@@ -10,17 +10,20 @@ const prismaDir = () => join(process.cwd(), "prisma");
  *   - "Café Cursor Accra April - 01.csv"
  *   - "Café Cursor Accra - Guests - 2026-04-18-03-49-59 - Café Cursor Accra - Guests - 2026-04-18-03-49-59.csv"
  *
- * Archived (May 2026 — Cursor Build Night Accra):
- *   - "Cursor Build Night Accra May.csv"
+ * Archived (May 2026 — Cursor Build Night Accra guests):
  *   - "Cursor Build Night Accra - Guests - 2026-05-30-16-27-38.csv"
  *
  * Archived (June 2026 — Cursor Hackathon UCC):
  *   - "Cursor Hackathon UCC June.csv"
  *   - "Cursor Hackathon UCC - Guests - 2026-06-26-20-48-18.csv"
  *
- * (stored in prisma/archive/)
+ * Active credits (Aug 2026 — Build Night Accra pool):
+ *   - "Cursor Build Night Accra May.csv"
+ *     First 90 rows marked status=taken; claims start at row 91.
+ *
+ * (guest archives stored in prisma/archive/)
  */
-const CREDITS_EVENT_BASENAME = "Cursor Hackathon UCC June.csv";
+const CREDITS_EVENT_BASENAME = "Cursor Build Night Accra May.csv";
 const USERS_EVENT_BASENAME =
   "Cursor Meetup Accra - Guests - August 12.csv";
 

@@ -175,10 +175,20 @@ async function main() {
   const unusedCodes = poolCodes.filter((code) => !usedCodes.has(code));
 
   if (unusedCodes.length > 0) {
-    await prisma.credit.updateMany({
-      where: { isTest: false, code: { in: unusedCodes } },
-      data: { isUsed: false, assignedAt: null },
-    });
+    // Preserve CSV / sheet order so claims drain from the first available row
+    // (e.g. after hashing out the first N taken codes).
+    const orderBase = Date.UTC(2026, 7, 12, 0, 0, 0);
+    for (let i = 0; i < unusedCodes.length; i++) {
+      await prisma.credit.updateMany({
+        where: { isTest: false, code: unusedCodes[i] },
+        data: {
+          isUsed: false,
+          isBackup: false,
+          assignedAt: null,
+          createdAt: new Date(orderBase + i * 1000),
+        },
+      });
+    }
   }
 
   if (usedCodes.size > 0) {
